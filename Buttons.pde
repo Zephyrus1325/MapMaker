@@ -29,6 +29,8 @@ public class Button{
     text = Text;
   }
  public void update(){ //<>//
+    strokeWeight(2);
+    stroke(0);
     switch(buttonPress()){
     case 0: fill(default_color[0],default_color[1],default_color[2]); break;
     case 1: fill(mouse_color[0],mouse_color[1],mouse_color[2]); break;
@@ -41,7 +43,7 @@ public class Button{
     text(this.text, this.buttonX+(this.button_Width/2), this.buttonY+(this.button_Height/2)); //<>//
   }
   
- public boolean buttonPressed(){
+ public boolean Pressed(){
    if((mouseX > this.buttonX) && (mouseX < this.buttonX+this.button_Width) && (mouseY > this.buttonY) && (mouseY < this.buttonY+this.button_Height)&&(mousePressed && (mouseButton == LEFT))){
    return true;
    } else {

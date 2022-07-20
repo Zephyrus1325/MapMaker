@@ -30,8 +30,8 @@ public class Slider{
   }
   
   public void update(){
+    collision();
     visual();
-    println(collision());
     value = constrain(value,this.min, this.max);
   }
   
@@ -46,7 +46,7 @@ public class Slider{
     rectMode(CORNER);
   }
   
-  private int collision(){
+  private void collision(){
     if((mouseX > this.x + carlos) && (mouseX < this.x + this.width - carlos) && (mouseY > this.y + carlos) && (mouseY < this.y + this.height - carlos)){
       if(mousePressed && (mouseButton == LEFT)){
         if(this.floor){
@@ -55,9 +55,6 @@ public class Slider{
           value = constrain(map(mouseX,this.x+carlos+(this.slider_Width/2), this.x+this.width-carlos-(this.slider_Width/2),this.min, this.max),this.min, this.max);
         }      
       }
-      return int(this.value);
-    } else {
-      return 0;
     }
   }
 }

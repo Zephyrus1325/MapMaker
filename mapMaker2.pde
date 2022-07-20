@@ -1,27 +1,22 @@
-static int pointX = 8;
-static int pointY = 8;
-static int PointSize = 10;
-int[][] pointsX = new int[pointX][pointY];
-int[][] pointsY = new int[pointX][pointY];
-
-int[] navX = new int[pointX*pointY];
-int[] navY = new int[pointX*pointY];
-
+static int pointX = 4;
+static int pointY = 4;
+static int refX = 50;
+static int refY = 50;
+static int sizeX = 500;
+static int sizeY = 500;
+int weight = 7;
 Button reset = new Button("Reset",950,480,150,100); //<>//
 Button options = new Button("Options", 1120,640,70,50);
 Slider slidX = new Slider(850,250,300,50);
-PVector Point1;
-PVector Point2;
+ArrayList<Point> points = new ArrayList<Point>();
 
 void setup(){
   options.text_Size = 18;
-  slidX.floor = true;
-  slidX.min = 5;
-  slidX.max = 32;
-  Point1 = new PVector();
-  Point2 = new PVector();
   size(1200,700);
   background(200);
+  for(int i = 0; i < pointX*pointY; i++){
+     points.add(new Point(i*20, 20));
+  }
 }
 
 void draw(){
@@ -29,65 +24,44 @@ void draw(){
   reset.update();
   slidX.update();
   options.update();
-  drawPoints(60,60,790,640);
-  //drawNav();  
- 
-  pointX = int(slidX.value);
-  pointY = int(slidX.value);
-  stroke(0);
-  strokeWeight(1);
-  line(Point1.x, Point1.y,Point2.x, Point2.y);
-  mouseCursor();
+  update_points();
+  if(reset.Pressed()){
+    buffer1 = -1;
+    buffer2 = -1;
+    for(int i = 0; i < points.size(); i++){ //<>//
+      Point ref = points.get(i);
+      for(int j = 0; j < 4; j++){
+        ref.relation[j] = false;
+      }
+    }
+  }
+  //mouseCursor();
 }
 
-public void drawPoints(int x, int y, int X, int Y){
-  strokeWeight(PointSize);
-  for(int j = 0; j < pointY; j++){
-    for(int i = 0; i < pointX; i++){
-      int m =((X-x)/(pointX-1));
-      int n =((Y-y)/(pointY-1));
-      int g = x+m*i; 
-      int h = y+n*j;
-      if(collision(g - PointSize, h - PointSize, g + PointSize, h + PointSize)){
-        stroke(255,0,0);
-        mClick(g,h);
-      } else { //<>//
-        stroke(0);
-      }      
-        point(g,h);
-        //navX[i+j*pointY] = g;
-        //navY[i+j*pointY] = h;
-      //pointsX[i][j] = g; 
-      //pointsY[i][j] = h; 
-      //println("X: " + i + " | Y: " + j + " PointVal: " + pointsX[pointX-1][pointY-1] + " , " + pointsY[pointX-1][pointY-1]);
-      //println("M: " + m + " | N: " + n);
+public void update_points(){
+  for(int i = 0; i < points.size(); i++){
+    Point reference = points.get(i);
+    reference.x = refX + (i % pointX)*(sizeX/pointX);
+    reference.y = refY + (i / pointX)*(sizeY/pointY);
+    reference.update();
+    mouseCheck(i);
+    for(int j = 0; j < 4; j++){
+      int carlos = 0;
+     if(reference.relation[j] && j == 0){carlos = i - pointX; println("Cima");   //Cima?
+   } else if(reference.relation[j] && j == 1){carlos = i - 1;  println("Esquerda");//esquerda?
+   } else if(reference.relation[j] && j == 2){carlos = i + 1;  println("Direita");//direita?
+   } else if(reference.relation[j] && j == 3){carlos = i + pointX; println("Baixo");//Baixo?
+   } else { break;}
+     Point dest = points.get(carlos);
+     strokeWeight(weight);
+     stroke(0);
+     line(reference.x, reference.y, dest.x, dest.y);
     }
   }
 }
 
-public void mClick(int m,int n){
-  if(mousePressed && (mouseButton == LEFT)){
-    Point1.set(m, n);
-  }
-  if(mousePressed && (mouseButton == RIGHT)){
-    Point2.set(m, n);
-  }
-}
-
-public void drawNav(){
-  for(int i = 0; i < pointX*pointY-1; i++){
-    stroke(0);
-    strokeWeight(1);
-    line(navX[i],navY[i], navX[i+1], navY[i+1]);
-  }
-}
-
-public boolean collision(int x, int y, int X, int Y){
-  if((mouseX > x) && (mouseX < X) && (mouseY > y) && (mouseY < Y)){
-    return true;
-  } else {
-    return false;
-  }
+public void updateLine(){
+  
 }
 
 public void mouseCursor(){
