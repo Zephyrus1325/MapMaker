@@ -19,27 +19,27 @@ public void mouseCheck(int i){
      Point reference2 = points.get(buffer2);
     if((bufAbs == 1) && !buf){
        //Esquerda
-       println("Esquerda");
-       reference1.relation[1] = true;
-       reference2.relation[2] = true;
+       //println("Esquerda");
+            if(reference1.relation[1] == false && reference2.relation[2] == false){reference1.relation[1] = true;  reference2.relation[2]= true;} 
+       else if(reference1.relation[1] == true && reference2.relation[2] == true){reference1.relation[1] = false;  reference2.relation[2] = false;}
        reset();
     } else if((bufAbs == 1) && buf){
        //Direita
-       println("Direita");
-       reference1.relation[2] = true;
-       reference2.relation[1] = true;
+       //println("Direita");
+            if(reference1.relation[2] == false && reference2.relation[1] == false){reference1.relation[2] = true;  reference2.relation[1] = true;} 
+       else if(reference1.relation[2] == true && reference2.relation[1] == true){reference1.relation[2] = false;  reference2.relation[1] = false;}
        reset();
     } else if((bufAbs == pointX) && !buf){
        //Cima
-       println("Cima");
-       reference1.relation[0] = true;
-       reference2.relation[3] = true;
+       //println("Cima");
+            if(reference1.relation[0] == false && reference2.relation[3] == false){reference1.relation[0] = true;  reference2.relation[3] = true;} 
+       else if(reference1.relation[0] == true && reference2.relation[3] == true){reference1.relation[0] = false;  reference2.relation[3] = false;}
        reset();
     } else if((bufAbs == pointX) && buf){
        //Baixo
-       println("Baixo");
-       reference1.relation[3] = true;
-       reference2.relation[0] = true;
+       //println("Baixo");
+             if(reference1.relation[3] == false && reference2.relation[0] == false){reference1.relation[3] = true;  reference2.relation[0] = true;} 
+       else if(reference1.relation[3] == true && reference2.relation[0] == true){reference1.relation[3] = false;  reference2.relation[0] = false;}
        reset();
     } else {
       println("ERROR");
@@ -54,6 +54,8 @@ public void drawline(int x, int y, int i){
     line(x,y, mouseX, mouseY);
   }
 }
+
+
 
 public void reset(){
  Point reference = points.get(buffer2);

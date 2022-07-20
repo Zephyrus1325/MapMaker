@@ -9,7 +9,7 @@ public class Button{
   private int[] mouse_color = new int[3];
 
   private int[] click_color = new int[3];
- 
+  private boolean activable = true;
   public int text_Size = 50;
 
   public Button(String Text, int x, int y, int X, int Y){
@@ -23,36 +23,38 @@ public class Button{
     click_color[1] = 120;
     click_color[2] = 120;
     buttonX = x;
-    buttonY = y; //<>//
+    buttonY = y;
     button_Width = X;
     button_Height = Y;
     text = Text;
   }
- public void update(){ //<>//
+ public void update(){
     strokeWeight(2);
     stroke(0);
+    if(!(mousePressed && (mouseButton == LEFT))){this.activable = true;}
     switch(buttonPress()){
     case 0: fill(default_color[0],default_color[1],default_color[2]); break;
     case 1: fill(mouse_color[0],mouse_color[1],mouse_color[2]); break;
     case 2: fill(click_color[0],click_color[1],click_color[2]); break;
     }
-    rect(this.buttonX,this.buttonY,this.button_Width,this.button_Height); //<>//
+    rect(this.buttonX,this.buttonY,this.button_Width,this.button_Height);
     fill(0);
-    textSize(this.text_Size); //<>//
+    textSize(this.text_Size);
     textAlign(CENTER,CENTER);
-    text(this.text, this.buttonX+(this.button_Width/2), this.buttonY+(this.button_Height/2)); //<>//
+    text(this.text, this.buttonX+(this.button_Width/2), this.buttonY+(this.button_Height/2));
   }
   
  public boolean Pressed(){
-   if((mouseX > this.buttonX) && (mouseX < this.buttonX+this.button_Width) && (mouseY > this.buttonY) && (mouseY < this.buttonY+this.button_Height)&&(mousePressed && (mouseButton == LEFT))){
-   return true;
+   if((mouseX > this.buttonX) && (mouseX < this.buttonX+this.button_Width) && (mouseY > this.buttonY) && (mouseY < this.buttonY+this.button_Height) && (mousePressed && (mouseButton == LEFT)) && this.activable){
+     this.activable = false;
+     return true;
    } else {
      return false;
    }
  }
   
   private int buttonPress(){
-      if((mouseX > this.buttonX) && (mouseX < this.buttonX+150) && (mouseY > this.buttonY) && (mouseY < this.buttonY+80)){
+      if((mouseX > this.buttonX) && (mouseX < this.buttonX+this.button_Width) && (mouseY > this.buttonY) && (mouseY < this.buttonY+this.button_Height)){
       if(mousePressed && (mouseButton == LEFT)){
         return 2;
       } else {

@@ -22,6 +22,7 @@ class Point{
   }
   
   public void update(){
+    setColor();
     strokeWeight(this.size);
     if(this.clicked()){
       stroke(this.click_color[0], this.click_color[1], this.click_color[2]);
@@ -32,16 +33,51 @@ class Point{
     }
     point(this.x,this.y);
     strokeWeight(4);
+    if(!(mousePressed)){this.collision = true;}
   }
   
   private boolean collision(){
   if((mouseX > x-(size/2) ) && (mouseX < x+(size/2)) && (mouseY > y-(size/2)) && (mouseY < y+(size/2))){
     return true;
   } else {
-    this.collision = true;
+    
     return false;
     }
   }
+  
+  private void setColor(){
+    default_color[2] = (this.isStop() ? 255 : 0);
+    select_color[2] = (this.isStop() ? 255 : 0);
+    click_color[2] = (this.isStop() ? 255 : 0);
+    default_color[1] = (this.isNode() ? 255 : 0);
+    select_color[1] = (this.isNode() ? 255 : 0);
+    click_color[1] = (this.isNode() ? 255 : 0);
+   //<>//
+  }
+  
+  public boolean isStop(){
+  int a = (this.relation[0] ? 1 : 0);
+  int b = (this.relation[1] ? 1 : 0);
+  int c = (this.relation[2] ? 1 : 0);
+  int d = (this.relation[3] ? 1 : 0);
+  return (a+b+c+d == 1 ? true : false);
+}
+
+  public boolean isLine(){
+  int a = (this.relation[0] ? 1 : 0);
+  int b = (this.relation[1] ? 1 : 0);
+  int c = (this.relation[2] ? 1 : 0);
+  int d = (this.relation[3] ? 1 : 0);
+  return (a+b+c+d == 2 ? true : false);
+}
+
+public boolean isNode(){
+  int a = (this.relation[0] ? 1 : 0);
+  int b = (this.relation[1] ? 1 : 0);
+  int c = (this.relation[2] ? 1 : 0);
+  int d = (this.relation[3] ? 1 : 0);
+  return (a+b+c+d >= 3 ? true : false);
+}
   public boolean clicked(){
    if(collision() && this.collision && mousePressed && mouseButton == LEFT){
     return true; 

@@ -1,17 +1,19 @@
-static int pointX = 4;
-static int pointY = 4;
-static int refX = 50;
+static int pointX = 8;
+static int pointY = 8;
+static int refX = 65;
 static int refY = 50;
-static int sizeX = 500;
-static int sizeY = 500;
+static int sizeX = 800;
+static int sizeY = 680;
 int weight = 7;
-Button reset = new Button("Reset",950,480,150,100); //<>//
-Button options = new Button("Options", 1120,640,70,50);
+Button reset = new Button("Reset",950,480,150,100);
+Button options = new Button("Options", 1105,640,90,50);
+Button export = new Button("Export", 1000, 640, 100,50);
 Slider slidX = new Slider(850,250,300,50);
 ArrayList<Point> points = new ArrayList<Point>();
 
 void setup(){
   options.text_Size = 18;
+  export.text_Size = 18;
   size(1200,700);
   background(200);
   for(int i = 0; i < pointX*pointY; i++){
@@ -24,44 +26,64 @@ void draw(){
   reset.update();
   slidX.update();
   options.update();
+  export.update();
+  update_Lines();
   update_points();
   if(reset.Pressed()){
     buffer1 = -1;
     buffer2 = -1;
-    for(int i = 0; i < points.size(); i++){ //<>//
+    for(int i = 0; i < points.size(); i++){
       Point ref = points.get(i);
       for(int j = 0; j < 4; j++){
         ref.relation[j] = false;
       }
     }
   }
+  if(export.Pressed()){export_data();}
   //mouseCursor();
 }
 
 public void update_points(){
-  for(int i = 0; i < points.size(); i++){
-    Point reference = points.get(i);
+    for(int i = 0; i < points.size(); i++){
+    Point reference = points.get(i); //<>//
     reference.x = refX + (i % pointX)*(sizeX/pointX);
     reference.y = refY + (i / pointX)*(sizeY/pointY);
     reference.update();
     mouseCheck(i);
-    for(int j = 0; j < 4; j++){
-      int carlos = 0;
-     if(reference.relation[j] && j == 0){carlos = i - pointX; println("Cima");   //Cima?
-   } else if(reference.relation[j] && j == 1){carlos = i - 1;  println("Esquerda");//esquerda?
-   } else if(reference.relation[j] && j == 2){carlos = i + 1;  println("Direita");//direita?
-   } else if(reference.relation[j] && j == 3){carlos = i + pointX; println("Baixo");//Baixo?
-   } else { break;}
-     Point dest = points.get(carlos);
-     strokeWeight(weight);
-     stroke(0);
-     line(reference.x, reference.y, dest.x, dest.y);
     }
-  }
 }
 
-public void updateLine(){
-  
+public void update_Lines(){
+   for(int i = 0; i < points.size(); i++){
+    Point reference = points.get(i);
+    for(int j = 0; j < 4; j++){    
+          if(reference.relation[j] && j == 0){int carlos = i - pointX; //println("Cima");   //Cima?
+         Point dest = points.get(carlos);
+         strokeWeight(weight);
+         stroke(0);
+         line(reference.x, reference.y, dest.x, dest.y);
+   } else if(reference.relation[j] && j == 1){int carlos = i - 1;  //println("Esquerda");//esquerda?
+         Point dest = points.get(carlos);
+         strokeWeight(weight);
+         stroke(0);
+         line(reference.x, reference.y, dest.x, dest.y);
+   } else if(reference.relation[j] && j == 2){int carlos = i + 1; // println("Direita");//direita?
+         Point dest = points.get(carlos);
+         strokeWeight(weight);
+         stroke(0);
+         line(reference.x, reference.y, dest.x, dest.y);
+   } else if(reference.relation[j] && j == 3){int carlos = i + pointX; //println("Baixo");//Baixo?
+         Point dest = points.get(carlos);
+         strokeWeight(weight);
+         stroke(0);
+         line(reference.x, reference.y, dest.x, dest.y);
+   } //else { break;}
+     
+    }
+     
+    
+
+  }
 }
 
 public void mouseCursor(){
